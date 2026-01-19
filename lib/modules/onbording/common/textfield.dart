@@ -75,7 +75,7 @@ class LabeledDropdown extends StatelessWidget {
           SizedBox(
             height: height,
             child: DropdownButtonFormField<String>(
-              value: value,
+              initialValue: value,
               isExpanded: true,
               style: TextStyle(
                 fontSize: itemTextSize,

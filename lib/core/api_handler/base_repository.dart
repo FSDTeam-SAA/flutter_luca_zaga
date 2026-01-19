@@ -14,14 +14,14 @@ base class BaseRepository {
   }) async {
     try {
       return await tryFunc().then((value) => Right(value));
-    } on ServerException catch (e) {
+    } on ServerException {
       return Left(
         DataCRUDFailure(
           failure: Failure.severFailure,
           fullError: 'Server failed!',
         ),
       );
-    } on NoDataException catch (e) {
+    } on NoDataException {
       return Left(
         DataCRUDFailure(failure: Failure.noData, fullError: "Doesn't exist!"),
       );
@@ -117,10 +117,15 @@ base class BaseRepository {
     return response.data["data"];
   }
 
-  String? extractSuccessMessage(Response<dynamic> response, {Debugger? debugger}){
+  String? extractSuccessMessage(
+    Response<dynamic> response, {
+    Debugger? debugger,
+  }) {
     debugger?.dekhao(response);
     try {
-      return (response.data["success"] as bool) == true ? response.data["message"] as String : null;
+      return (response.data["success"] as bool) == true
+          ? response.data["message"] as String
+          : null;
     } catch (e) {
       debugger?.dekhao("Error from parsing success message: $e");
       return null;

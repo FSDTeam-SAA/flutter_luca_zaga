@@ -26,7 +26,7 @@ enum AccountType {
 extension ExtraAuth on Auth {
   String get userId => data["userId"] ?? "";
   AccountType get accountType {
-    debugPrint("Account type: ${data}");
+    debugPrint("Account type: $data");
     try {
       if (data["role"] == null) return AccountType.unknown;
       AuthDebugger().dekhao("has role");

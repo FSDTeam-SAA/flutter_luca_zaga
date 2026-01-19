@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_luca_zaga30/modules/app_ground.dart';
 import 'package:flutter_luca_zaga30/modules/onbording/onboarding1.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Onboarding1Screen(),
+      home: AppGround(),
       // home: AppGround(),
     );
   }

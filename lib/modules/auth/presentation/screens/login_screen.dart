@@ -102,11 +102,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     focusColor: AppColors.white,
                                     activeColor: AppColors.primarybutton,
                                     fillColor:
-                                        MaterialStateProperty.resolveWith<
-                                          Color
-                                        >((states) {
+                                        WidgetStateProperty.resolveWith<Color>((
+                                          states,
+                                        ) {
                                           if (states.contains(
-                                            MaterialState.selected,
+                                            WidgetState.selected,
                                           )) {
                                             return AppColors.primarybutton;
                                           }

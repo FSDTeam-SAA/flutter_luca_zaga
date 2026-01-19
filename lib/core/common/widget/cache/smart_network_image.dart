@@ -4,12 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../../services/debug/debug_service.dart';
 import '../../../services/image_cache/image_service.dart';
-import '../circle_shape.dart';
 
-enum _Shape{
-  circle,
-  none,
-}
+enum _Shape { circle, none }
 
 class SmartNetworkImage extends StatefulWidget {
   final String? imageUrl;
@@ -25,7 +21,6 @@ class SmartNetworkImage extends StatefulWidget {
   final Color? borderColor;
   final double? borderWidth;
 
-
   const SmartNetworkImage._({
     required this.imageUrl,
     this.fit = BoxFit.cover,
@@ -39,7 +34,7 @@ class SmartNetworkImage extends StatefulWidget {
     this.shape = _Shape.none,
     this.backgroundColor,
     this.borderColor,
-    this.borderWidth
+    this.borderWidth,
   });
 
   const SmartNetworkImage({
@@ -52,10 +47,10 @@ class SmartNetworkImage extends StatefulWidget {
     this.errorWidget,
     this.keepAlive = false,
     super.key,
-  }): shape = _Shape.none,
-      backgroundColor = null,
-      borderColor = null,
-      borderWidth = null;
+  }) : shape = _Shape.none,
+       backgroundColor = null,
+       borderColor = null,
+       borderWidth = null;
 
   factory SmartNetworkImage.circle({
     Key? key,
@@ -82,15 +77,15 @@ class SmartNetworkImage extends StatefulWidget {
     shape: _Shape.circle,
     backgroundColor: backgroundColor,
     borderColor: borderColor,
-    borderWidth: borderWidth
+    borderWidth: borderWidth,
   );
-
 
   @override
   State<SmartNetworkImage> createState() => _SmartNetworkImageState();
 }
 
-class _SmartNetworkImageState extends State<SmartNetworkImage> with AutomaticKeepAliveClientMixin{
+class _SmartNetworkImageState extends State<SmartNetworkImage>
+    with AutomaticKeepAliveClientMixin {
   Uint8List? _imageBytes;
   bool _hasError = false;
 
@@ -108,11 +103,9 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> with AutomaticKee
   }
 
   Future<void> _loadImage() async {
-    if(widget.imageUrl == null) {
+    if (widget.imageUrl == null) {
       _hasError = true;
-      setState(() {
-        
-      });
+      setState(() {});
       return;
     }
 
@@ -134,13 +127,16 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> with AutomaticKee
     super.build(context);
     if (_imageBytes != null) {
       // For Circle
-      if(widget.shape == _Shape.circle) {
+      if (widget.shape == _Shape.circle) {
         return Container(
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: widget.backgroundColor,
-            border: Border.all(color: widget.borderColor ?? Colors.transparent, width: widget.borderWidth ?? 0)
+            border: Border.all(
+              color: widget.borderColor ?? Colors.transparent,
+              width: widget.borderWidth ?? 0,
+            ),
           ),
           child: Image.memory(
             _imageBytes!,
@@ -167,11 +163,13 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> with AutomaticKee
           SizedBox(
             height: widget.height,
             width: widget.width,
-            child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+            child: const Center(
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
           );
     }
   }
-  
+
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => widget.keepAlive;
