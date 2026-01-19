@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_luca_zaga30/modules/app_ground.dart';
 import 'package:flutter_luca_zaga30/modules/auth/presentation/screens/forget_password.dart';
 import 'package:flutter_luca_zaga30/modules/auth/presentation/screens/signup_screen.dart';
 import 'package:get/get.dart';
@@ -144,13 +145,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                     style: TextStyle(
                                       color: AppColors.textButtonColor,
                                       fontSize: 16,
-                                      fontWeight: FontWeight.w600
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                             SizedBox(height: 8),
+
                             SizedBox(
                               width: double.infinity,
                               height: 48,
@@ -162,30 +164,33 @@ class _LoginScreenState extends State<LoginScreen> {
                                 key: null,
                                 buttonStatusNotifier:
                                     controller.processStatusNotifier,
+
                                 onSaveTap: () {
-                                  // controller.login(
-                                  //   needVerifyAccount: () {
-                                  //     controller.snackbarNotifier;
-                                  //   },
-                                  // );
-                                  Navigator.push(
-                                    context,
+                                  // validate form
+                                  final isValid =
+                                      controller.formKey.currentState
+                                          ?.validate() ??
+                                      false;
+                                  if (!isValid) return;
+
+                                  // if you just want to go to AppGround right away:
+                                  Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
-                                      builder: (context) => Scaffold(),
+                                      builder: (_) => const AppGround(),
                                     ),
+                                    (route) =>
+                                        false, // clear login from back stack
                                   );
                                 },
 
+                                // you can leave this empty or use it for extra logic after success
                                 onDone: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Scaffold(),
-                                    ),
-                                  );
+                                  // optional: if your RSaveButton triggers done state separately,
+                                  // you can also navigate here instead of in onSaveTap.
                                 },
                               ),
                             ),
+
                             SizedBox(height: 16),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
