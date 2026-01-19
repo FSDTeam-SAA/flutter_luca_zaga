@@ -83,7 +83,7 @@ class _RSaveButtonState extends State<RSaveButton> {
           width: widget.width ?? constraints.maxWidth,
           decoration: BoxDecoration(
             color: switch (buttonStatusNotifier.status) {
-              EnabledStatus _ => AppColors.primarybutton,
+              EnabledStatus _ => AppColors.buttonColor,
               DisabledStatus _ => AppColors.white,
               LoadingStatus _ => AppColors.buttonInactiveTextColor,
               ErrorStatus _ => AppColors.buttonInactiveTextColor,
