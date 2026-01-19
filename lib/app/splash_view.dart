@@ -1,53 +1,53 @@
-// import 'dart:async';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_eleonoraguzzy/app/app_manager.dart';
-// import 'package:app_pigeon/app_pigeon.dart';
-// import 'package:flutter_eleonoraguzzy/features/auth/presentation/screens/login_screen.dart';
-// import 'package:flutter_eleonoraguzzy/features/nabber_screen.dart';
-// import 'package:flutter_eleonoraguzzy/features/onbording/common/app_logo.dart';
-// import 'package:get/get.dart';
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:flutter_luca_zaga30/app/app_manager.dart';
+import 'package:flutter_luca_zaga30/core/services/app_pigeon/app_pigeon.dart';
+import 'package:flutter_luca_zaga30/modules/auth/presentation/screens/login_screen.dart';
+import 'package:get/get.dart';
 
-// class SplashView extends StatefulWidget {
-//   const SplashView({super.key});
+import '../modules/onbording/common/app_logo.dart';
 
-//   @override
-//   State<SplashView> createState() => _SplashViewState();
-// }
+class SplashView extends StatefulWidget {
+  const SplashView({super.key});
 
-// class _SplashViewState extends State<SplashView> {
-//   late Timer timer;
+  @override
+  State<SplashView> createState() => _SplashViewState();
+}
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     timer = Timer(const Duration(milliseconds: 1000), _navigateNext);
-//   }
+class _SplashViewState extends State<SplashView> {
+  late Timer timer;
 
-//   void _navigateNext() {
-//     final appManager = Get.find<AppManager>();
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer(const Duration(milliseconds: 1000), _navigateNext);
+  }
 
-//     if (appManager.currentAuthStatus is Authenticated) {
-//       // User is logged in → go to AppGround
-//       Navigator.push(
-//         context,
-//         MaterialPageRoute(builder: (context) => AppGround()),
-//       );
-//     } else {
-//       // User not logged in → go to Login screen
-//       Navigator.push(context,
-//         MaterialPageRoute(builder: (context) => LoginScreen()),
-//       );
-//     }
-//   }
+  void _navigateNext() {
+    final appManager = Get.find<AppManager>();
 
-//   @override
-//   void dispose() {
-//     timer.cancel();
-//     super.dispose();
-//   }
+    if (appManager.currentAuthStatus is Authenticated) {
+      // User is logged in → go to AppGround
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Scaffold()),
+      );
+    } else {
+      // User not logged in → go to Login screen
+      Navigator.push(context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    }
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(body: Center(child: AppLogo()));
-//   }
-// }
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: AppLogo()));
+  }
+}

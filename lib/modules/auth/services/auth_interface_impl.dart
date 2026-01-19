@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_luca_zaga30/modules/auth/repo/auth_interface.dart';
+import 'package:flutter_luca_zaga30/modules/auth/model/verify_otp_param.dart';
+import 'package:flutter_luca_zaga30/modules/auth/services/auth_interface.dart';
 
 import '../../../core/api_handler/failure.dart';
 import '../../../core/api_handler/success.dart';
@@ -107,9 +108,24 @@ final class AuthInterfaceImpl extends AuthInterface {
   }
 
   @override
-  FutureRequest<Success> verifyCode(param) {
-    throw UnimplementedError();
-  }
+FutureRequest<Success> verifyCode(VerifyOtpParam param) async {
+  return await asyncTryCatch(
+    tryFunc: () async {
+      final response = await appPigeon.post(
+        ApiEndpoints.verifyCode, // Make sure this is the correct endpoint
+        data: param.toJson(),
+      );
+
+      debugPrint("Verify OTP response: ${response.data}");
+
+      // Return Success object with message
+      return Success(
+        message: response.data['message'] ?? 'OTP verified successfully',
+      );
+    },
+  );
+}
+
 
   @override
   FutureRequest<Success> changePassword(ChangePasswordModel param) async {

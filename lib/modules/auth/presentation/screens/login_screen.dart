@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     style: TextStyle(
                                       color: AppColors.textButtonColor,
                                       fontSize: 16,
-                                      fontWeight: FontWeight.w600
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
@@ -163,26 +163,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 buttonStatusNotifier:
                                     controller.processStatusNotifier,
                                 onSaveTap: () {
-                                  // controller.login(
-                                  //   needVerifyAccount: () {
-                                  //     controller.snackbarNotifier;
-                                  //   },
-                                  // );
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Scaffold(),
-                                    ),
+                                  controller.login(
+                                    needVerifyAccount: () {
+                                      controller.snackbarNotifier;
+                                    },
                                   );
                                 },
 
                                 onDone: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Scaffold(),
-                                    ),
-                                  );
+                                  Get.offAll(() => Scaffold());
                                 },
                               ),
                             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_luca_zaga30/modules/auth/presentation/screens/change_password_screen.dart';
 import 'package:flutter_luca_zaga30/modules/auth/presentation/screens/reset_password.dart';
 import 'package:get/get.dart';
 import '../../../../core/common/widget/reactive_button/save_button.dart';
@@ -145,7 +146,6 @@ class _EnterOtpState extends State<EnterOtp> {
                                       keyboardType: TextInputType.number,
                                       maxLength: 1,
                                       decoration: InputDecoration(
-                                        counterText: '',
                                         filled: true,
                                         fillColor: Color(0xFFDB972C),
                                         contentPadding: EdgeInsets.zero,
@@ -191,46 +191,18 @@ class _EnterOtpState extends State<EnterOtp> {
                               doneText: "Verified",
                               errorText: "Invalid OTP",
                               key: null,
-                              buttonStatusNotifier: controller.prcessNotifier,
+                              buttonStatusNotifier: controller.processNotifier,
                               onSaveTap: () {
-                                // final otp = _otp; // collected from input boxes
-                                // Get.to(
-                                //   () => ResetPassword(
-                                //     email: widget.email,
-                                //     otp: otp,
-                                //   ),
-                                // );
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ResetPassword(
-                                      email: widget.email,
-                                      otp: _otp,
-                                    ),
-                                  ),
-                                );
+                                controller.verify();
                               },
 
                               onDone: () {
-                                // final otp = controller.otp;
-
-                                // Get.to(
-                                //   () => ResetPassword(
-                                //     email: widget.email,
-                                //     otp: otp,
-                                //   ),
-                                // );
-
-                                // Get.snackbar(
-                                //   "OTP",
-                                //   "OTP Verified Successfully!",
-                                // );
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => ResetPassword(
-                                      email: widget.email,
-                                      otp: _otp,
+                                      email: controller.email,
+                                      otp: controller.otp,
                                     ),
                                   ),
                                 );

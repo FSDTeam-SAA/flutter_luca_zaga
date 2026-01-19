@@ -1,60 +1,3 @@
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter_k_oppelt/core/helpers/handle_fold.dart';
-// import 'package:flutter_k_oppelt/core/notifiers/button_status_notifier.dart';
-// import 'package:flutter_k_oppelt/core/notifiers/snackbar_notifier.dart';
-// import 'package:flutter_k_oppelt/feature/auth/model/verify_otp_param.dart';
-// import 'package:flutter_k_oppelt/feature/auth/repo/auth_interface.dart';
-// import 'package:get/get.dart';
-
-// abstract class VerifyOtpController extends ChangeNotifier {
-//   final AuthInterface authInterface = Get.find<AuthInterface>();
-//   final ProcessStatusNotifier prcessNotifier = ProcessStatusNotifier(
-//     initialStatus: DisabledStatus(),
-//   );
-//   final SnackbarNotifier snackbarNotifier;
-//   final String email;
-
-//   VerifyOtpController({required this.email, required this.snackbarNotifier});
-
-//   int otpLength = 6;
-//   String _otp = "";
-
-//   String get otp => _otp;
-
-//   set otp(String value) {
-//     _otp = value;
-//     debugPrint(_otp);
-//     if (_otp.length == 6) {
-//       prcessNotifier.setEnabled();
-//     } else {
-//       prcessNotifier.setDisabled();
-//     }
-//   }
-
-//   void verify();
-// }
-
-// class VerifyForgetPasswordOtpController extends VerifyOtpController{
-//   VerifyForgetPasswordOtpController({required super.email, required super.snackbarNotifier});
-
-//   @override
-//   void verify() async{
-//     if (prcessNotifier.status is LoadingStatus) return;
-//     debugPrint("verifying...");
-//     prcessNotifier.setLoading();
-//     await authInterface
-//         .verifyCode(VerifyOtpParam(email: email, otp: otp))
-//         .then((lr) {
-//           handleFold(
-//             either: lr,
-//             processStatusNotifier: prcessNotifier,
-//             successSnackbarNotifier: snackbarNotifier,
-//             errorSnackbarNotifier: snackbarNotifier,
-//           );
-//         });
-//   }
-// }
-
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -62,7 +5,7 @@ import '../../../core/helpers/handle_fold.dart';
 import '../../../core/notifiers/button_status_notifier.dart';
 import '../../../core/notifiers/snackbar_notifier.dart';
 import '../model/verify_otp_param.dart';
-import '../repo/auth_interface.dart';
+import '../services/auth_interface.dart';
 
 abstract class VerifyOtpController extends ChangeNotifier {
   final AuthInterface authInterface = Get.find<AuthInterface>();
@@ -94,19 +37,38 @@ abstract class VerifyOtpController extends ChangeNotifier {
   void verify();
 }
 
-class VerifyForgetPasswordOtpController extends VerifyOtpController {
+class VerifyForgetPasswordOtpController extends GetxController {
+  final AuthInterface authInterface = Get.find<AuthInterface>();
+
+  final ProcessStatusNotifier processNotifier =
+      ProcessStatusNotifier(initialStatus: DisabledStatus());
+
+  final SnackbarNotifier snackbarNotifier;
+  final String email;
+
   VerifyForgetPasswordOtpController({
-    required super.email,
-    required super.snackbarNotifier,
+    required this.email,
+    required this.snackbarNotifier,
   });
 
-  @override
-  void verify() async {
-    if (prcessNotifier.status is LoadingStatus) return;
+  final int otpLength = 6;
+  String _otp = '';
 
-    debugPrint("Verifying OTP for email: $email");
+  String get otp => _otp;
 
-    prcessNotifier.setLoading();
+  set otp(String value) {
+    _otp = value;
+    if (_otp.length == otpLength) {
+      processNotifier.setEnabled();
+    } else {
+      processNotifier.setDisabled();
+    }
+  }
+
+  Future<void> verify() async {
+    if (processNotifier.status is LoadingStatus) return;
+
+    processNotifier.setLoading();
 
     final result = await authInterface.verifyCode(
       VerifyOtpParam(email: email, otp: otp),
@@ -114,15 +76,11 @@ class VerifyForgetPasswordOtpController extends VerifyOtpController {
 
     handleFold(
       either: result,
-      processStatusNotifier: prcessNotifier,
+      processStatusNotifier: processNotifier,
       successSnackbarNotifier: snackbarNotifier,
       errorSnackbarNotifier: snackbarNotifier,
-    );
-
-    // 🔥 REQUIRED: Mark as Done so button triggers onDone
-    result.fold(
-      (err) => prcessNotifier.setError(),
-      (success) => prcessNotifier.setSuccess(),
+      onSuccess: (_) => processNotifier.setSuccess(),
+      onError: (_) => processNotifier.setError(),
     );
   }
 }

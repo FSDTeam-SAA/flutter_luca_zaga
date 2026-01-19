@@ -1,15 +1,13 @@
 import 'package:flutter/foundation.dart';
 
 base class ApiEndpoints {
-  static const String socketUrl = _RemoteServer.socketUrl;
+  static const String socketUrl = _LocalHostWifi.socketUrl;
 
-  static const String baseUrl = _RemoteServer.baseUrl;
+  static const String baseUrl = _LocalHostWifi.baseUrl;
 
   /// ### post
   static const String login = _Auth.login;
   static const String logout = _Auth.logout;
-  static const String socialLogin = _Auth.socialLogin;
-
   static const String signup = _Auth.signup;
   static const String verifyCode = _Auth.verifyCode;
   static const String forgetPassword = _Auth.forgetPassword;
@@ -77,8 +75,8 @@ class _RemoteServer {
 }
 
 class _LocalHostWifi {
-  static const String socketUrl = 'http://10.10.5.46:5005';
-  static const String baseUrl = 'http://10.10.5.46:5005/api/v1';
+  static const String socketUrl = 'http://localhost:5001';
+  static const String baseUrl = 'http://localhost:5001/api/v1';
 }
 
 class _Auth {
@@ -86,11 +84,10 @@ class _Auth {
   static const String _authRoute = '${ApiEndpoints.baseUrl}/auth';
   static const String login = '$_authRoute/login';
   static const String logout = '$_authRoute/logout';
-  static const String socialLogin = '$_authRoute/social-login';
   static const String signup = '$_authRoute/register';
   static const String forgetPassword = '$_authRoute/forget';
   static const String refreshToken = '$_authRoute/refresh-token';
-  static const String verifyCode = '$_authRoute/verify-otp';
+  static const String verifyCode = '$_authRoute/verify';
   static const String changePassword = '$_authRoute/change-password';
   static const String resetPassword = '$_authRoute/reset-password';
 }
