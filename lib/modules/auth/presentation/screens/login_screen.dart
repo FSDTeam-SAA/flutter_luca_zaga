@@ -166,27 +166,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                     controller.processStatusNotifier,
 
                                 onSaveTap: () {
-                                  // validate form
-                                  final isValid =
-                                      controller.formKey.currentState
-                                          ?.validate() ??
-                                      false;
-                                  if (!isValid) return;
-
-                                  // if you just want to go to AppGround right away:
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                      builder: (_) => const AppGround(),
-                                    ),
-                                    (route) =>
-                                        false, // clear login from back stack
+                                  controller.login(
+                                    needVerifyAccount: () {
+                                      controller.snackbarNotifier;
+                                    },
                                   );
                                 },
 
                                 // you can leave this empty or use it for extra logic after success
                                 onDone: () {
-                                  // optional: if your RSaveButton triggers done state separately,
-                                  // you can also navigate here instead of in onSaveTap.
+                                  Get.offAll(() => Scaffold());
                                 },
                               ),
                             ),

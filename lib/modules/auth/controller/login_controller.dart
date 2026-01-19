@@ -6,7 +6,7 @@ import '../../../core/helpers/handle_fold.dart';
 import '../../../core/notifiers/button_status_notifier.dart';
 import '../../../core/notifiers/snackbar_notifier.dart';
 import '../model/login_request_model.dart';
-import '../repo/auth_interface.dart';
+import '../services/auth_interface.dart';
 
 class LoginController extends GetxController {
   final ProcessStatusNotifier processStatusNotifier = ProcessStatusNotifier(
@@ -94,9 +94,14 @@ class LoginController extends GetxController {
         processStatusNotifier: processStatusNotifier,
         successSnackbarNotifier: snackbarNotifier,
         errorSnackbarNotifier: snackbarNotifier,
+        onSuccess: (Success){
+          processStatusNotifier.setSuccess();
+        },
         onError: (error) {
           if (error.failure == Failure.forbidden) {
             needVerifyAccount();
+          } else {
+            processStatusNotifier.setError();
           }
         },
       );

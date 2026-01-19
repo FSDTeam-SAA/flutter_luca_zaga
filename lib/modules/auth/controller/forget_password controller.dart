@@ -5,7 +5,7 @@ import '../../../core/helpers/handle_fold.dart';
 import '../../../core/notifiers/button_status_notifier.dart';
 import '../../../core/notifiers/snackbar_notifier.dart';
 import '../model/forget_password_model.dart';
-import '../repo/auth_interface.dart';
+import '../services/auth_interface.dart';
 
 class ForgetPasswordController extends GetxController {
   final ProcessStatusNotifier processStatusNotifier =
